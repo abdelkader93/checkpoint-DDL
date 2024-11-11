@@ -1,0 +1,82 @@
+Step 1: Create the tables based on the relational model and the given data types:
+Here is an example of how to create the tables based on the provided model:
+
+-- Create CUSTOMER table
+CREATE TABLE CUSTOMER (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR2(100),
+    ContactName VARCHAR2(100),
+    Address VARCHAR2(255),
+    City VARCHAR2(100),
+    PostalCode VARCHAR2(20),
+    Country VARCHAR2(50)
+);
+
+-- Create SUPPLIER table
+CREATE TABLE SUPPLIER (
+    SupplierID INT PRIMARY KEY,
+    SupplierName VARCHAR2(100),
+    ContactName VARCHAR2(100),
+    Address VARCHAR2(255),
+    City VARCHAR2(100),
+    PostalCode VARCHAR2(20),
+    Country VARCHAR2(50)
+);
+
+-- Create PRODUCT table
+CREATE TABLE PRODUCT (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR2(100),
+    SupplierID INT,
+    CategoryID INT,
+    QuantityPerUnit VARCHAR2(50),
+    UnitPrice NUMBER(10, 2),
+    InStock INT,
+    FOREIGN KEY (SupplierID) REFERENCES SUPPLIER(SupplierID),
+    FOREIGN KEY (CategoryID) REFERENCES CATEGORY(CategoryID)
+);
+
+-- Create ORDERDETAIL table
+CREATE TABLE ORDERDETAIL (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    UnitPrice NUMBER(10, 2),
+    Discount NUMBER(5, 2),
+    FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES PRODUCT(ProductID)
+);
+
+-- Create ORDERS table
+CREATE TABLE ORDERS (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    ShipDate DATE,
+    Status VARCHAR2(50),
+    FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+);
+
+-- Create CATEGORY table
+CREATE TABLE CATEGORY (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR2(100),
+    Description VARCHAR2(255)
+);
+
+
+
+
+
+
+Step 2: Add the Category column to the PRODUCT table:
+
+ALTER TABLE PRODUCT ADD Category VARCHAR2(20);
+
+
+
+
+Step 3: Add the OrderDate column to the ORDERS table with SYSDATE as the default value:
+
+ALTER TABLE ORDERS ADD OrderDate DATE DEFAULT SYSDATE;
